@@ -28,5 +28,5 @@ while mqttc.loop() == 0:
         temp = llapMsg[7:12]
 	while temp.endswith("-"):
 			temp = temp[:-1]
-	mqttc.publish("house/temp/" + devID,temp)
+	mqttc.publish("house/temp/" + devID,temp, retain=True)
 
