@@ -1,5 +1,6 @@
 #!/usr/bin/python
-import mosquitto
+#import mosquitto
+import paho.mqtt.client as mqtt
 import os
 import time
 import serial
@@ -14,11 +15,12 @@ ser = serial.Serial(port, baud)
 
 mypid = os.getpid()
 client_uniq = "pubclient_"+str(mypid)
-mqttc = mosquitto.Mosquitto(client_uniq)
+#mqttc = mosquitto.Mosquitto(client_uniq)
+mqttc = mqtt.Client()
 
 #Connect to broker
-mqttc.connect(broker, tcpport, 60, True)
-
+#mqttc.connect(broker, tcpport, 60, True)
+mqttc.connect (broker)
 #Remain connected and publish
 while mqttc.loop() == 0:
         llapMsg = ser.read(12)
