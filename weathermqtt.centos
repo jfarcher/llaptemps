@@ -1,0 +1,66 @@
+
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          llaptemp2mqtt
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Lauch serial loggin
+# Description:       Log all data from LLAP thermistor to an MQTT feed
+### END INIT INFO
+
+# Script Location & informations
+DIR=/store/projects/llaptemp2mqtt
+DAEMON=$DIR/weathermqtt.py
+DAEMON_NAME=weathermqtt
+
+# This next line determines what user the script runs as.
+DAEMON_USER=root
+
+# The process ID of the script when it runs is stored here:
+PIDFILE=/var/run/$DAEMON_NAME.pid
+LOCKFILE=/var/lock/subsys/$DAEMON_NAME
+. /etc/init.d/functions
+
+
+start() {
+	echo -n $"Starting $DAEMON: "
+        $DAEMON &
+        RETVAL=$?
+        [ $RETVAL = 0 ] && touch ${LOCKFILE}
+	echo
+}
+stop () {	
+	killproc -p $PIDFILE
+	rm -f $PIDFILE
+	RETVAL=$?
+        [ $RETVAL = 0 ] && touch ${LOCKFILE}
+	echo
+}
+
+case "$1" in
+
+    start)
+	start
+	;;
+    stop)
+	stop
+	;;
+
+    restart)
+        stop
+        start
+        ;;
+    status)
+	status $DAEMON
+	RETVAL=$?
+	;;
+
+    *)
+        echo "Usage: /etc/init.d/$DAEMON_NAME {start|stop|restart|status}"
+        exit 1
+        ;;
+
+esac
+exit 0
