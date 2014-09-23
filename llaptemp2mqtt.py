@@ -19,6 +19,8 @@ tcpport = 1883
 baud = 115200
 port = '/dev/ttyAMA0'
 ser = serial.Serial(port, baud)
+topic = "house/temp/"
+
 
 mypid = os.getpid()
 client_uniq = "pubclient_"+str(mypid)
@@ -39,5 +41,5 @@ while True:
 	while temp.endswith("-"):
 			temp = temp[:-1]
 	if sensor == "TEMP":
-		mqttc.publish("house/temp/" + devID,temp, retain=True)
+		mqttc.publish(topic + devID,temp, retain=True)
 mqttc.loop_forever()
