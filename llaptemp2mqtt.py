@@ -24,14 +24,11 @@ topic = "house/temp/"
 
 mypid = os.getpid()
 client_uniq = "pubclient_"+str(mypid)
-#mqttc = mosquitto.Mosquitto(client_uniq)
 mqttc = mqtt.Client()
 
 #Connect to broker
-#mqttc.connect(broker, tcpport, 60, True)
 mqttc.connect (broker, tcpport, 60)
-#Remain connected and publish
-#while mqttc.loop() == 0:
+
 mqttc.loop_start()
 while True:
 	llapMsg = ser.read(12)
