@@ -1,0 +1,12 @@
+[main]
+
+[mqtt]
+broker=127.0.0.1
+port=1883
+[redis]
+broker=127.0.0.1
+port=6379
+[weather]
+url=http://example.com/weather/current-weather.json
+topic=house/temp/weather
+
